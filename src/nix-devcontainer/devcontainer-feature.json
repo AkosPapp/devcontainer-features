@@ -1,0 +1,50 @@
+{
+  "id": "nix-devcontainer",
+  "version": "0.0.1",
+  "name": "Nix Nix DevContainer with Notifications",
+  "description": "Installs Nix and a custom VS Code extension for creating notifications.",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Version of the tool to install"
+    }
+  },
+  "mounts": [
+    //{
+    //  "source": "nix",
+    //  "target": "/nix",
+    //  "type": "volume"
+    //},
+    //{
+    //  "source": "etc-nix",
+    //  "target": "/etc/nix",
+    //  "type": "volume"
+    //}
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "jnoortheen.nix-ide",
+      ],
+      "settings": {
+        "nix.enableLanguageServer": true,
+        "nix.serverPath": "nil",
+        // LSP config can be passed via the ``nix.serverSettings.{lsp}`` as shown below.
+        "nix.serverSettings": {
+          // check https://github.com/oxalica/nil/blob/main/docs/configuration.md for all options available
+          "nil": {
+            // "diagnostics": {
+            //  "ignored": ["unused_binding", "unused_with"],
+            // },
+            "formatting": {
+              "command": [
+                "alejandra"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
