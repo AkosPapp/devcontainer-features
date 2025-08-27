@@ -38,7 +38,8 @@
           phases = ["installPhase"];
 
           installPhase = [''
-            mkdir -p $out
+            mkdir -p $out/global/etc/ssl/certs
+            cp -r ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt $out/global/etc/ssl/certs/ca-certificates.crt
           ''] ++
           (
           pkgs.lib.map  (sys : ''

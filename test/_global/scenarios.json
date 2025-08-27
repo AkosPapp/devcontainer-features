@@ -1,8 +1,0 @@
-{
-    "nix_devcontainer_integration": {
-        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-        "features": {
-            "nix-devcontainer": {}
-        }
-    }
-}
