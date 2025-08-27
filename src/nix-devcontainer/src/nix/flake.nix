@@ -47,7 +47,7 @@
           cp -r ${self.packages.${sys}.nix}/share $out/${sys}
           mkdir -p $out/${sys}/bin
           cp -P $(ls ${self.packages.${sys}.nix}/bin/* | grep -v "\-test") $out/${sys}/bin/
-          '') [ "x86_64-linux" "aarch64-linux" ]
+          '') [ "x86_64-linux" ] #"aarch64-linux" ]
           );
         };
 
