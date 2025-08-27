@@ -1,0 +1,20 @@
+{
+    "nix_store_info": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "nix-devcontainer": {}
+        }
+    },
+    "nix_on_debian": {
+        "image": "debian:latest",
+        "features": {
+            "nix-devcontainer": {}
+        }
+    },
+    "nix_on_ubuntu": {
+        "image": "ubuntu:latest",
+        "features": {
+            "nix-devcontainer": {}
+        }
+    }
+}

@@ -1,28 +1,22 @@
 {
   "id": "nix-devcontainer",
   "version": "0.0.1",
-  "name": "Nix Nix DevContainer with Notifications",
-  "description": "Installs Nix and a custom VS Code extension for creating notifications.",
-  "options": {
-    "version": {
-      "type": "string",
-      "default": "latest",
-      "description": "Version of the tool to install"
-    }
-  },
+  "name": "Nix DevContainer",
+  "description": "Adds Nix package manager support to any DevContainer with multi-architecture support (x86_64, aarch64). Installs statically compiled Nix binary, creates persistent volumes for Nix store and configuration, and includes VS Code extension for automatic devshell integration with workspace flakes.",
+  "options": {},
   "postStartCommand": "/nix-daemon.sh",
   "mounts": [
     // mounts can be enabled to make the nix store persistent
-    //{
-    //  "source": "nix",
-    //  "target": "/nix",
-    //  "type": "volume"
-    //},
-    //{
-    //  "source": "etc-nix",
-    //  "target": "/etc/nix",
-    //  "type": "volume"
-    //}
+    {
+      "source": "nix",
+      "target": "/nix",
+      "type": "volume"
+    },
+    {
+      "source": "etc-nix",
+      "target": "/etc/nix",
+      "type": "volume"
+    }
   ],
   "customizations": {
     "vscode": {

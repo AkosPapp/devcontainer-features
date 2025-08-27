@@ -1,109 +1,71 @@
-# Dev Container Features: Self Authoring Template
+# Nix DevContainer Features
 
-> This repo provides a starting point and example for creating your own custom [dev container Features](https://containers.dev/implementors/features/), hosted for free on GitHub Container Registry.  The example in this repository follows the [dev container Feature distribution specification](https://containers.dev/implementors/features-distribution/).  
->
-> To provide feedback to the specification, please leave a comment [on spec issue #70](https://github.com/devcontainers/spec/issues/70). For more broad feedback regarding dev container Features, please see [spec issue #61](https://github.com/devcontainers/spec/issues/61).
+> This repository provides custom [dev container Features](https://containers.dev/implementors/features/) for Nix package manager integration, hosted on GitHub Container Registry. The features follow the [dev container Feature distribution specification](https://containers.dev/implementors/features-distribution/).
 
-## Example Contents
+## Features
 
-This repository contains a _collection_ of two Features - `hello` and `color`. These Features serve as simple feature implementations.  Each sub-section below shows a sample `devcontainer.json` alongside example usage of the Feature.
+This repository contains the `nix-devcontainer` feature that adds comprehensive Nix package manager support to any DevContainer environment.
 
-### `hello`
+### `nix-devcontainer`
 
-Running `hello` inside the built container will print the greeting provided to it via its `greeting` option.
+Adds Nix package manager support with multi-architecture compatibility, persistent storage, and VS Code integration.
 
 ```jsonc
 {
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
-        "ghcr.io/devcontainers/feature-starter/hello:1": {
-            "greeting": "Hello"
-        }
+        "ghcr.io/akospapp/nix-devcontainer/nix-devcontainer:0": {}
     }
 }
 ```
 
-```bash
-$ hello
+**Key Features:**
+- ✅ Multi-architecture support (x86_64, aarch64)
+- ✅ Statically compiled Nix binary
+- ✅ Persistent Nix store and configuration volumes
+- ✅ VS Code extensions for IDE support and devshell integration
+- ✅ Automatic devshell detection from workspace flakes
 
-Hello, user.
-```
-
-### `color`
-
-Running `color` inside the built container will print your favorite color to standard out.
-
-```jsonc
-{
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "features": {
-        "ghcr.io/devcontainers/feature-starter/color:1": {
-            "favorite": "green"
-        }
-    }
-}
-```
+**What's included:**
+- Nix package manager with daemon
+- Nix IDE extension (`jnoortheen.nix-ide`)
+- Nix DevContainer extension (`AkosPapp.nix-devcontainer`)
+- Nil language server with Alejandra formatter
+- Persistent volumes for `/nix` and `/etc/nix`
 
 ```bash
-$ color
-
-my favorite color is green
+# Example usage after installation
+nix shell nixpkgs#hello
+nix develop  # If you have a flake.nix
+nix profile install nixpkgs#git
 ```
 
-## Repo and Feature Structure
+## Repository Structure
 
-Similar to the [`devcontainers/features`](https://github.com/devcontainers/features) repo, this repository has a `src` folder.  Each Feature has its own sub-folder, containing at least a `devcontainer-feature.json` and an entrypoint script `install.sh`. 
+This repository follows the [devcontainers/features](https://github.com/devcontainers/features) structure with a `src` folder containing each Feature in its own sub-folder.
 
 ```
 ├── src
-│   ├── hello
+│   ├── nix-devcontainer
 │   │   ├── devcontainer-feature.json
-│   │   └── install.sh
-│   ├── color
-│   │   ├── devcontainer-feature.json
-│   │   └── install.sh
-|   ├── ...
-│   │   ├── devcontainer-feature.json
-│   │   └── install.sh
+│   │   ├── install.sh
+│   │   ├── README.md
+│   │   └── NOTES.md
 ...
 ```
 
-An [implementing tool](https://containers.dev/supporting#tools) will composite [the documented dev container properties](https://containers.dev/implementors/features/#devcontainer-feature-json-properties) from the feature's `devcontainer-feature.json` file, and execute in the `install.sh` entrypoint script in the container during build time.  Implementing tools are also free to process attributes under the `customizations` property as desired.
+An [implementing tool](https://containers.dev/supporting#tools) will composite [the documented dev container properties](https://containers.dev/implementors/features/#devcontainer-feature-json-properties) from the feature's `devcontainer-feature.json` file, and execute the `install.sh` entrypoint script in the container during build time.
 
-### Options
+### Feature Configuration
 
-All available options for a Feature should be declared in the `devcontainer-feature.json`.  The syntax for the `options` property can be found in the [devcontainer Feature json properties reference](https://containers.dev/implementors/features/#devcontainer-feature-json-properties).
-
-For example, the `color` feature provides an enum of three possible options (`red`, `gold`, `green`).  If no option is provided in a user's `devcontainer.json`, the value is set to "red".
+The `nix-devcontainer` feature currently has no configurable options, making it simple to use:
 
 ```jsonc
 {
-    // ...
-    "options": {
-        "favorite": {
-            "type": "string",
-            "enum": [
-                "red",
-                "gold",
-                "green"
-            ],
-            "default": "red",
-            "description": "Choose your favorite color."
-        }
+    "features": {
+        "ghcr.io/akospapp/nix-devcontainer/nix-devcontainer:0": {}
     }
 }
-```
-
-Options are exported as Feature-scoped environment variables.  The option name is captialized and sanitized according to [option resolution](https://containers.dev/implementors/features/#option-resolution).
-
-```bash
-#!/bin/bash
-
-echo "Activating feature 'color'"
-echo "The provided favorite color is: ${FAVORITE}"
-
-...
-```
 
 ## Distributing Features
 
@@ -123,16 +85,15 @@ This repo contains a **GitHub Action** [workflow](.github/workflows/release.yaml
 
 *Allow GitHub Actions to create and approve pull requests* should be enabled in the repository's `Settings > Actions > General > Workflow permissions` for auto generation of `src/<feature>/README.md` per Feature (which merges any existing `src/<feature>/NOTES.md`).
 
-By default, each Feature will be prefixed with the `<owner/<repo>` namespace.  For example, the two Features in this repository can be referenced in a `devcontainer.json` with:
+By default, each Feature will be prefixed with the `<owner>/<repo>` namespace. The Feature in this repository can be referenced in a `devcontainer.json` with:
 
 ```
-ghcr.io/devcontainers/feature-starter/color:1
-ghcr.io/devcontainers/feature-starter/hello:1
+ghcr.io/akospapp/nix-devcontainer/nix-devcontainer:0
 ```
 
-The provided GitHub Action will also publish a third "metadata" package with just the namespace, eg: `ghcr.io/devcontainers/feature-starter`.  This contains information useful for tools aiding in Feature discovery.
+The provided GitHub Action will also publish a metadata package with the namespace: `ghcr.io/akospapp/nix-devcontainer`. This contains information useful for tools aiding in Feature discovery.
 
-'`devcontainers/feature-starter`' is known as the feature collection namespace.
+`akospapp/nix-devcontainer` is the feature collection namespace.
 
 ### Marking Feature Public
 

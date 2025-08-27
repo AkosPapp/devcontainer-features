@@ -1,13 +1,8 @@
 {
-    "color_and_hello": {
+    "nix_devcontainer_integration": {
         "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
         "features": {
-            "color": {
-                "favorite": "purple"
-            },
-            "hello": {
-                "greeting": "Greetings"
-            }
+            "nix-devcontainer": {}
         }
     }
 }
