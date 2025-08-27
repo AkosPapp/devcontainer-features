@@ -1,8 +1,1 @@
-{
-    "nix": {
-        "image": "alpine:latest",
-        "features": {
-            "nix-devcontainer": {}
-        }
-    }
-}
+{}
