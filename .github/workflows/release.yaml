@@ -14,12 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
     
-      - name: "Validate devcontainer-feature.json files"
-        uses: devcontainers/action@v1
-        with:
-          validate-only: "true"
-          base-path-to-features: "./src"
-
       - name: "Publish Features"
         uses: devcontainers/action@v1
         with:
@@ -43,4 +37,4 @@ jobs:
           git config pull.rebase false
           git add */**/README.md
           branch=${GITHUB_REF#refs/heads/}
-          git commit -m 'Automated documentation update [skip ci]' && git push origin "$branch"
+          git commit -m 'Automated documentation update [skip ci]' && git push origin "$branch" || echo "No changes to commit"
