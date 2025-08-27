@@ -10,7 +10,9 @@
       "description": "Version of the tool to install"
     }
   },
+  "postStartCommand": "/nix-daemon.sh",
   "mounts": [
+    // mounts can be enabled to make the nix store persistent
     //{
     //  "source": "nix",
     //  "target": "/nix",
@@ -25,7 +27,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "jnoortheen.nix-ide"
+        "jnoortheen.nix-ide",
+        "AkosPapp.nix-devcontainer"
       ],
       "settings": {
         "nix.enableLanguageServer": true,
