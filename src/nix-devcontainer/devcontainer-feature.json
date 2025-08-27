@@ -1,6 +1,6 @@
 {
   "id": "nix-devcontainer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "name": "Nix DevContainer",
   "description": "Adds Nix package manager support to any DevContainer with multi-architecture support (x86_64, aarch64). Installs statically compiled Nix binary, creates persistent volumes for Nix store and configuration, and includes VS Code extension for automatic devshell integration with workspace flakes.",
   "options": {},
