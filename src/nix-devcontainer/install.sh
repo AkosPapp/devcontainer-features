@@ -44,7 +44,8 @@ START_UID=30000
 SHARED_GROUP="nixbld"
 
 # Detect if we're on Alpine/BusyBox (which uses addgroup/adduser) or other systems (groupadd/useradd)
-if command -v addgroup >/dev/null 2>&1; then
+# Use BusyBox commands if groupmod doesn't exist (indicating minimal environment)
+if ! command -v groupmod >/dev/null 2>&1; then
     USE_BUSYBOX_COMMANDS=1
 else
     USE_BUSYBOX_COMMANDS=0
