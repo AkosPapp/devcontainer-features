@@ -45,10 +45,10 @@ SHARED_GROUP="nixbld"
 
 # Detect if we're on Alpine/BusyBox (which uses addgroup/adduser) or other systems (groupadd/useradd)
 # Use BusyBox commands if groupmod doesn't exist (indicating minimal environment)
-if ! command -v groupmod >/dev/null 2>&1; then
-    USE_BUSYBOX_COMMANDS=1
-else
+if command -v groupmod >/dev/null 2>&1; then
     USE_BUSYBOX_COMMANDS=0
+else
+    USE_BUSYBOX_COMMANDS=1
 fi
 
 # Find the correct nologin path
@@ -92,13 +92,16 @@ while [ $i -le "$NUM_USERS" ]; do
     if [ "$USE_BUSYBOX_COMMANDS" = "1" ]; then
         adduser -u $((START_UID + i)) -G "$SHARED_GROUP" -h /var/empty -s "$NOLOGIN_PATH" -g "Nix build user $USERNAME" -D "$USERNAME"
     else
-        useradd \
-            -u $((START_UID + i)) \
-            -g "$SHARED_GROUP" \
-            -d /var/empty \
-            -s "$NOLOGIN_PATH" \
-            -c "Nix build user $USERNAME" \
-            "$USERNAME"
+        sudo useradd -g nixbld -G nixbld -M -N -u $((30000 + i)) nixbld$i || true
+
+        # useradd \
+            # -u $((START_UID + i)) \
+            # -g "$SHARED_GROUP" \
+            # -G "$SHARED_GROUP" \
+            # -d /var/empty \
+            # -s "$NOLOGIN_PATH" \
+            # -c "Nix build user $USERNAME" \
+            # "$USERNAME"
     fi
 
     echo "Created user $USERNAME with UID $((START_UID + i)) and added to group '$SHARED_GROUP'"

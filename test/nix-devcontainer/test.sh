@@ -25,5 +25,8 @@ check "nix eval simple expression" sh -c 'nix eval --expr "1 + 1" | grep -q "2"'
 # Test that nix can install a simple package
 check "nix shell hello package" sh -c 'nix shell nixpkgs#hello --command hello | grep -q "Hello, world!"'
 
+# Test if nix can build packages
+check "nix build hello package" sh -c 'nix build ./flake'
+
 # Report results
 reportResults
