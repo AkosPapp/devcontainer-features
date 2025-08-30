@@ -92,7 +92,7 @@ while [ $i -le "$NUM_USERS" ]; do
     if [ "$USE_BUSYBOX_COMMANDS" = "1" ]; then
         adduser -u $((START_UID + i)) -G "$SHARED_GROUP" -h /var/empty -s "$NOLOGIN_PATH" -g "Nix build user $USERNAME" -D "$USERNAME"
     else
-        sudo useradd -g nixbld -G nixbld -M -N -u $((30000 + i)) nixbld$i || true
+        useradd -g nixbld -G nixbld -M -N -u $((30000 + i)) nixbld$i || true
 
         # useradd \
             # -u $((START_UID + i)) \
